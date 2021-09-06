@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Header from './Components/Header/Header';
+import News from './Components/News/News';
+
 
 function App() {
+  const apiKey = 'https://newsapi.org/v2/everything?q=tesla&from=2021-08-05&sortBy=publishedAt&apiKey=6b23a9ae371c4946a324f098d26ca7da';
+  const [news, setNews] = useState([]);
+  useEffect(() => {
+    fetch(apiKey)
+      .then(response => response.json())
+      .then(data => setNews(data.articles))
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header></Header>
+      {news.map(news => <News news={news} ></News>)}
     </div>
   );
 }
